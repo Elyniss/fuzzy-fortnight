@@ -1,0 +1,35 @@
+name: Checkout Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate_ts:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          with:
+            repository: WalletConnect/WalletConnectKotlinV2
+
+        - name: Run Relay CI
+          env:
+            TEST_RELAY_URL: wss://relay.walletconnect.com
+            TEST_PROJECT_ID: 2ee94aca5d98e6c05c38bce02bee952a
+          uses: ./.github/actions/ci_relay
+          
+  validate_rs:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+          with:
+            repository: WalletConnect/WalletConnectKotlinV2
+
+        - name: Run Relay CI
+          env:
+            TEST_RELAY_URL: wss://staging.rust-relay.walletconnect.com
+            TEST_PROJECT_ID: 2ee94aca5d98e6c05c38bce02bee952a
+          uses: ./.github/actions/ci_relay
